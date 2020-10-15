@@ -5,10 +5,13 @@ Spyder Editor
 This is a temporary script file.
 """
 #%%
+
 import networkx as nx
 from networkx.utils import open_file
 
-import pandas as pd
+#import pyyed
+
+#import pandas as pd
 import sys
 
 def main(filepath):
@@ -34,10 +37,21 @@ def main(filepath):
 
     # Update the labels of nodes 
     for edge in input_edges:
-        fuel = edge[2]['label']
+        fuel_in = edge[2]['label']
         from_node = edge[0]
-        RES.nodes[from_node]['label'] = fuel
+        RES.nodes[from_node]['label'] = fuel_in
 
+    for edge in output_edges:
+        from_node = edge[0]
+        to_node = edge[1]
+        fuel_out = RES.nodes[to_node]['label']
+        RES.edges[from_node,to_node]['label'] = fuel_out
+    
+    for edge in emission_edges:
+        from_node = edge[0]
+        to_node = edge[1]
+        emission = RES.nodes[to_node]['label']
+        RES.edges[from_node,to_node]['label'] = emission
 
 
     # k=0    
@@ -106,3 +120,4 @@ def main(filepath):
 # %%
 if __name__ == "__main__":
     main(sys.argv[1])
+
